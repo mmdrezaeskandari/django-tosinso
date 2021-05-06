@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, HttpResponse
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import *
 from .models import *
@@ -46,12 +48,13 @@ def user_login(request):
 
     return render(request, 'accounts/login.html', {'form': form})
 
-
+@login_required(login_url='accounts:user_login')
 def user_logout(request):
     logout(request)
     messages.success(request, 'شما با موفقیت خارج شدید', 'info')
     return redirect('home:home')
 
+@login_required(login_url='accounts:user_login')
 def user_profile(request):
     profile = Profile.objects.get(user_id = request.user.id)
     context = {
@@ -59,6 +62,7 @@ def user_profile(request):
     }
     return render(request, 'accounts/profile.html', context)
 
+@login_required(login_url='accounts:user_login')
 def user_profile_update(request):
     if request.method == 'POST':
         user_form = UserUpdateForm(request.POST, instance=request.user)
@@ -79,3 +83,16 @@ def user_profile_update(request):
     }
 
     return render(request, 'accounts/user_update.html', context)
+
+@login_required(login_url='accounts:user_login')
+def user_change_password(request):
+    if request.method == "POST":
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            messages.success(request, 'پسوورد شما با موفقیت تغییر یافت.', 'success')
+            return redirect('accounts:user_profile')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'accounts/user_change_password.html', {'form': form})
