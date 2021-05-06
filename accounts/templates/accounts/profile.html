@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} | profile {% endblock %}
+
+{% block content %}
+<div class="container p-3">
+  <h1>Profile</h1>
+  <div class="container col-md-5">
+    <table class="table table-dark table-striped">
+      <tr>
+        <th>User Name</th>
+        <td>{{profile.user.username}}</td>
+      </tr>
+
+      <tr>
+        <th>Email</th>
+        <td>{{profile.user.email}}</td>
+      </tr>
+
+      <tr>
+        <th>First Name</th>
+        <td>{{profile.user.first_name}}</td>
+      </tr>
+
+      <tr>
+        <th>Last Name</th>
+        <td>{{profile.user.last_name}}</td>
+      </tr>
+
+      <tr>
+        <th>Phone Number</th>
+        <td>{{profile.phone}}</td>
+      </tr>
+
+      <tr>
+        <th>Address</th>
+        <td>{{profile.address}}</td>
+      </tr>
+    </table>
+
+    <a href="{% url 'accounts:user_profile_update' %}" class="btn btn-warning">Edit Profile</a>
+  </div>
+</div>
+{% endblock %}

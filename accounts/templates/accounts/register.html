@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}
+  | Register
+{% endblock %}
+
+{% block content %}
+<div class="container p-3">
+  <h3>Register</h3>
+  {% if error %}
+      <div class="alert alert-danger col-md-4 mb-3" role="alert">{{error}}</div>
+  {% endif %}
+    <form method="post">
+      {% csrf_token %}
+        <div class="col-md-4 mb-3">
+          <input class="form-control" type="text" name="user_name" placeholder="username">
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <input class="form-control" type="email" name="email" placeholder="email">
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <input class="form-control" type="text" name="first_name" placeholder="fistname">
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <input class="form-control" type="text" name="last_name" placeholder="lastname">
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <input class="form-control" type="password" name="password_1" placeholder="password">
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <input class="form-control" type="password" name="password_2" placeholder="confirm password">
+        </div>{{errorlist}}
+
+        <div class="col-12 mb-3">
+          <button type="submit" class="btn btn-primary">Register</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

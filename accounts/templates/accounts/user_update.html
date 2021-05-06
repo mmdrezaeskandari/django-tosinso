@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}
+  | profile update
+{% endblock %}
+
+{% block content %}
+  <div class="container p-3">
+    <h1>Profile Update</h1>
+
+    <div class="container">
+      <form method="POST">
+        {% csrf_token %}
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="username" class="form-label">User Name:</label>
+              <input class="form-control" type="text" name="username" value="{{user_update_form.username.value}}">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="email" class="form-label">Email:</label>
+              <input class="form-control" type="email" name="email" value="{{user_update_form.email.value}}">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="first_name" class="form-label">First Name:</label>
+              <input class="form-control" type="text" name="first_name" value="{{user_update_form.first_name.value}}">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="last_name" class="form-label">Last Name:</label>
+              <input class="form-control" type="text" name="last_name" value="{{user_update_form.last_name.value}}">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <label for="phone" class="form-label">Phone Number:</label>
+              <input class="form-control" type="number" name="phone" value="{{profile_update_form.phone.value}}">
+            </div>
+            <div class="col-md-6 mb-6">
+              <label for="address" class="form-label">Address:</label>
+              <input class="form-control" type="text" name="address" value="{{profile_update_form.address.value}}">
+            </div>
+          </div>
+
+          <div class="col-12 mt-3">
+            <button type="submit" class="btn btn-primary">Submit Edits</button>
+          </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
