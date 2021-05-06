@@ -11,5 +11,6 @@ urlpatterns = [
 
     path('profile/', views.user_profile, name='user_profile'),
     path('profile/update/', views.user_profile_update, name='user_profile_update'),
+    path('profile/change-password/', views.user_change_password, name='user_change_password'),
 
 ]
