@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import *
 from .models import *
+import ghasedak
+from random import randint
 
 def user_register(request):
     if request.method == 'POST':
@@ -96,3 +98,41 @@ def user_change_password(request):
     else:
         form = PasswordChangeForm(request.user)
     return render(request, 'accounts/user_change_password.html', {'form': form})
+
+def login_with_phone(request):
+    if request.method == 'POST':
+        form = PhoneLoginForm(request.POST)
+        if form.is_valid():
+            global validate_num, phone
+            data = form.cleaned_data
+            phone = f"0{data['phone']}"
+            if Profile.objects.filter(phone=phone).exists():
+                validate_num = randint(100000, 999999)
+                sms = ghasedak.Ghasedak("56b85ea9c874f752d75aa3f4a11b3a6dd122daf6fce3451eb60af312b2dcd94a")
+                sms.send({'message': f"کد ورود به حساب کاربری: {validate_num}", 'receptor': phone, 'linenumber': '10008566'})
+                return redirect('accounts:phone_validate')
+            else:
+                messages.error(request, 'حسابی با شماره وارد شده وجود ندارد!', 'danger')
+    else:
+        form = PhoneLoginForm
+    return render(request, 'accounts/login_with_phone.html', {'form': form})
+
+def phone_validate(request):
+    if request.method == "POST":
+        form = PhoneValidateForm(request.POST)
+        if form.is_valid():
+            code = form.cleaned_data['code']
+            if validate_num == code:
+                if Profile.objects.filter(phone=phone).exists():
+                    profile = Profile.objects.get(phone=phone)
+                    user = User.objects.get(profile__id=profile.id)
+                    login(request, user)
+                    messages.success(request, 'سلام :)', 'success')
+                    return redirect('home:home')
+                else:
+                    messages.error(request, 'حسابی با شماره وارد شده وجود ندارد!', 'danger')
+            else:
+                messages.error(request, 'کد وارد شده صحیح نیست', 'warning')
+    else:
+        form = PhoneValidateForm()
+    return render(request, 'accounts/phone_validate.html', {'form': form})
