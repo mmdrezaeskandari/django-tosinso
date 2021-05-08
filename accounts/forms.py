@@ -48,10 +48,3 @@ class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model =     Profile
         fields =    ['phone', 'address']
-
-
-class PhoneLoginForm(forms.Form):
-    phone = forms.IntegerField()
-
-class PhoneValidateForm(forms.Form):
-    code = forms.IntegerField()
