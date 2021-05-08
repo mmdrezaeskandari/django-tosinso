@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/django-tosinso.iml" filepath="$PROJECT_DIR$/.idea/django-tosinso.iml" />
+      <module fileurl="file://$USER_HOME$/Desktop/work/notes/.idea/notes.iml" filepath="$USER_HOME$/Desktop/work/notes/.idea/notes.iml" />
+    </modules>
+  </component>
+</project>
